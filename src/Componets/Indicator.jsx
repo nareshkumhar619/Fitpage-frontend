@@ -4,8 +4,19 @@ import { Mycontext } from './ContextApis'
 
 function Indicator() { 
     const { name,indicator,id} = useParams()
-    const [datavalue, setdatavalue] = useState([])
+    const [datavalue, setdatavalue] = useState([
+      {
+        default_value: 'Initial Value',
+      },
+    ])
     const data = useContext(Mycontext)
+
+    const handleChange = (e) => {
+      // Update the state when the input value changes
+      const updatedDataValue = [...datavalue];
+      updatedDataValue[0].default_value = e.target.value;
+      setdatavalue(updatedDataValue);
+    }
 
     useEffect(() => {
         const filterdata = data.find((item) => item.name == name);
@@ -25,7 +36,7 @@ function Indicator() {
                 <p className='px-4'>Set Parameters</p>
                 <div  className='px-4 flex justify-between bg-white text-black pb-4 pt-1'>
                     <p>period</p>
-                    <input className='text-black border-2 outline-6 ' type="text" value={datavalue[0]?.default_value} />
+                    <input className='text-black border-2 outline-6 ' type="text" value={datavalue[0]?.default_value} onChange={handleChange} />
                 </div>
             </div>
     </div>
